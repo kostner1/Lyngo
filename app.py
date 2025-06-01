@@ -1,13 +1,13 @@
 import streamlit as st
-import openai
 import requests
 from io import BytesIO
+from openai import OpenAI
 
 # === Configuration ===
 OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
 ELEVENLABS_API_KEY = st.secrets["ELEVENLABS_API_KEY"]
 ELEVENLABS_VOICE_ID = st.secrets["ELEVENLABS_VOICE_ID"]
-openai.api_key = OPENAI_API_KEY
+client = OpenAI(api_key=OPENAI_API_KEY)
 
 st.set_page_config(page_title="Lyngo Agents Demo", layout="centered")
 st.title("🧠 Lyngo Agents – Hospitality Booking")
@@ -30,11 +30,11 @@ if user_input:
         {"role": "user", "content": user_input}
     ]
     with st.spinner("Thinking in Egyptian Arabic..."):
-        gpt_response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-4o",
             messages=messages
         )
-        agent_reply = gpt_response.choices[0].message.content.strip()
+        agent_reply = response.choices[0].message.content.strip()
         st.markdown(f"**Agent:** {agent_reply}")
 
     # === Text to Speech
