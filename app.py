@@ -17,7 +17,7 @@ st.write("Talk to your AI receptionist in Egyptian Arabic.")
 
 # === Record Audio ===
 with st.expander("🎙️ Start Talking"):
-    audio_file = st.audio_recorder("Record a message", format="audio/wav")
+    audio_file = st.file_uploader("🎙️ Upload a voice message (WAV format)", type=["wav"])
 
 if audio_file is not None:
     with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp_audio:
